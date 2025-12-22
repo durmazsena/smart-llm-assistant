@@ -1,0 +1,30 @@
+# FastAPI & Server
+fastapi
+uvicorn[standard]
+python-multipart
+
+# LangChain
+langchain
+langchain-community
+langchain-core
+langchain-text-splitters
+
+# Vector Store & Embeddings
+faiss-cpu
+
+# Document Processing
+pypdf
+python-docx
+
+# Web Scraping & HTTP
+requests
+beautifulsoup4
+
+# Environment Variables
+python-dotenv
+
+# Pydantic (FastAPI dependency)
+pydantic
+
+# Streamlit (Frontend)
+streamlit
