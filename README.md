@@ -34,7 +34,7 @@ ollama pull nomic-embed-text
 
 ```bash
 # Repo'yu klonla
-git clone https://github.com/YOUR_USERNAME/smart-llm-assistant.git
+git clone https://github.com/durmazsena/smart-llm-assistant.git
 cd smart-llm-assistant
 
 # Sanal ortam oluştur
