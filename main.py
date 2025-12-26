@@ -7,14 +7,13 @@ from dotenv import load_dotenv
 from bs4 import BeautifulSoup
 
 # LangChain imports
-from langchain_community.chat_models import ChatOllama
+from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_core.chat_history import InMemoryChatMessageHistory
 from langchain_community.document_loaders import PyPDFLoader, TextLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import FAISS
-from langchain_community.embeddings import OllamaEmbeddings
 
 # FastAPI imports
 from fastapi import FastAPI, UploadFile, File
@@ -32,10 +31,13 @@ load_dotenv()
 app = FastAPI(title="Yazılım Mimarı Asistanı")
 
 # ---------------------------
-# 1) LLM (Ollama + Gemma3)
+# 1) LLM (Gemini API)
 # ---------------------------
-llm = ChatOllama(
-    model="gemma3:4b",
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+
+llm = ChatGoogleGenerativeAI(
+    model="gemini-flash-lite-latest",
+    google_api_key=GOOGLE_API_KEY,
     temperature=0.3,
 )
 
@@ -213,11 +215,14 @@ YANIT:"""
 
 
 # ---------------------------
-# 7) RAG (FAISS + Ollama Embeddings)
+# 7) RAG (FAISS + Gemini Embeddings)
 # ---------------------------
 
-# Embedding modeli (Ollama ile)
-embeddings = OllamaEmbeddings(model="nomic-embed-text")
+# Embedding modeli (Gemini ile)
+embeddings = GoogleGenerativeAIEmbeddings(
+    model="models/embedding-001",
+    google_api_key=GOOGLE_API_KEY
+)
 
 # Global FAISS index (session bazlı tutulabilir)
 _faiss_stores: Dict[str, FAISS] = {}

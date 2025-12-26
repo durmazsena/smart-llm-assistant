@@ -7,13 +7,13 @@ Kullanıcı mesajlarını analiz ederek doğru endpoint'e yönlendirir:
 - rag: Yüklü dokümana referans içeren sorular
 """
 
-from langchain_community.chat_models import ChatOllama
+from langchain_google_genai import ChatGoogleGenerativeAI
 
 
 class SemanticRouter:
     """LLM tabanlı akıllı yönlendirici"""
     
-    def __init__(self, llm: ChatOllama):
+    def __init__(self, llm: ChatGoogleGenerativeAI):
         self.llm = llm
     
     def route(self, message: str, has_document: bool = False) -> str:
@@ -28,7 +28,6 @@ class SemanticRouter:
             "chat", "web_search" veya "rag"
         """
         
-        # RAG context bilgisi
         rag_context = "Kullanıcının yüklediği bir doküman VAR. " if has_document else ""
         
         prompt = f"""Kullanıcının mesajını analiz et ve hangi moda yönlendirileceğini belirle.
@@ -52,17 +51,17 @@ SADECE şu kelimelerden BİRİNİ yaz (başka hiçbir şey yazma): chat, web_sea
             result = self.llm.invoke(prompt)
             route = result.content.strip().lower()
             
-            # İlk kelimeyi al (bazen LLM fazladan açıklama ekleyebilir)
+            # İlk kelimeyi al
             route = route.split()[0] if route else "chat"
             
-            # Noktalama işaretlerini temizle
+            # Noktalama temizle
             route = route.strip(".,!?")
             
             # Geçerli route kontrolü
             if route not in ["chat", "web_search", "rag"]:
                 return "chat"
             
-            # RAG sadece doküman varsa kullanılabilir
+            # RAG sadece doküman varsa
             if route == "rag" and not has_document:
                 return "chat"
             
@@ -74,9 +73,8 @@ SADECE şu kelimelerden BİRİNİ yaz (başka hiçbir şey yazma): chat, web_sea
     
     def get_route_explanation(self, route: str) -> str:
         """Route için kullanıcıya gösterilecek açıklama"""
-        explanations = {
+        return {
             "chat": "💬 Asistan bilgisiyle yanıtlanıyor",
             "web_search": "🌐 Web'de aranıyor",
             "rag": "📄 Dokümanda aranıyor"
-        }
-        return explanations.get(route, "💬 Yanıtlanıyor")
+        }.get(route, "💬 Yanıtlanıyor")

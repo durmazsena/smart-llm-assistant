@@ -391,4 +391,4 @@ if user_input:
                 st.error(f"❌ Hata: {str(e)}")
 
 # Footer
-st.markdown('<p class="footer-text">Powered by Ollama + LangChain + Semantic Router</p>', unsafe_allow_html=True)
+st.markdown('<p class="footer-text">Powered by Gemini + LangChain + Semantic Router</p>', unsafe_allow_html=True)
