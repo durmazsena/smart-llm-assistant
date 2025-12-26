@@ -1,4 +1,4 @@
-# 🤖 Yazılım Mimarı Asistanı
+# 🤖 Smart LLM Assistant
 
 LLM tabanlı akıllı yazılım mimari asistanı. Semantic Router ile otomatik mod seçimi, web arama ve RAG (Retrieval-Augmented Generation) özellikleri.
 
@@ -12,23 +12,17 @@ LLM tabanlı akıllı yazılım mimari asistanı. Semantic Router ile otomatik m
 ## 🛠️ Teknolojiler
 
 - **Backend**: FastAPI + LangChain
-- **LLM**: Ollama (gemma3:4b)
+- **LLM**: Google Gemini API (gemini-flash-lite-latest)
+- **Embeddings**: Google Generative AI Embeddings
 - **Vector Store**: FAISS
 - **Frontend**: Streamlit
 - **Web Search**: SerpAPI
 
 ## 📦 Kurulum
 
-### 1. Ollama Kurulumu
+### 1. Gemini API Key
 
-```bash
-# macOS
-brew install ollama
-
-# Model indir
-ollama pull gemma3:4b
-ollama pull nomic-embed-text
-```
+[Google AI Studio](https://aistudio.google.com/apikey) adresinden ücretsiz API key alın.
 
 ### 2. Proje Kurulumu
 
@@ -52,6 +46,8 @@ pip install -r requirements.txt
 cp .env.example .env
 
 # .env dosyasını düzenle ve API key'leri ekle
+# GOOGLE_API_KEY=your_key_here
+# SERPAPI_KEY=your_key_here
 ```
 
 ## 🚀 Çalıştırma
@@ -83,13 +79,14 @@ Tarayıcıda `http://localhost:8501` adresine gidin.
 ## 🏗️ Proje Yapısı
 
 ```
-btk_asistan/
-├── main.py              # FastAPI backend
+smart-llm-assistant/
+├── main.py              # FastAPI backend + Gemini API
 ├── semantic_router.py   # LLM-based intent detection
 ├── app_streamlit.py     # Streamlit frontend
 ├── requirements.txt     # Python bağımlılıkları
 ├── .env                 # Ortam değişkenleri (gitignore'da)
-└── .env.example         # Örnek ortam değişkenleri
+├── .env.example         # Örnek ortam değişkenleri
+└── .streamlit/          # Streamlit tema ayarları
 ```
 
 ## 📝 Lisans
