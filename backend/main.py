@@ -2,9 +2,19 @@ import os
 import requests
 import tempfile
 import shutil
+from pathlib import Path
 from typing import Dict, List, Optional
 from dotenv import load_dotenv
 from bs4 import BeautifulSoup
+
+# --- .env yüklemesi tüm importlardan önce yapılmalı ---
+current_dir = Path(__file__).parent
+env_path = current_dir.parent / ".env" if (current_dir.parent / ".env").exists() else current_dir / ".env"
+load_dotenv(env_path, override=True)
+
+# Google API Key'i temizle ve kesinleştir
+GOOGLE_API_KEY = (os.getenv("GOOGLE_API_KEY") or "").strip().strip("'").strip('"')
+os.environ["GOOGLE_API_KEY"] = GOOGLE_API_KEY
 
 # LangChain imports
 from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
@@ -23,23 +33,27 @@ from pydantic import BaseModel
 from docx import Document as DocxDocument
 
 # Semantic Router
-from semantic_router import SemanticRouter
+try:
+    from .semantic_router import SemanticRouter
+except (ImportError, ValueError):
+    from semantic_router import SemanticRouter
 
-# .env dosyasını yükle
-load_dotenv()
-
+# FastAPI app
 app = FastAPI(title="Yazılım Mimarı Asistanı")
 
 # ---------------------------
 # 1) LLM (Gemini API)
 # ---------------------------
-GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
+
+# Model ismi: Gemini 2.5 Flash Lite
+MODEL_NAME = "gemini-2.5-flash-lite"
 
 llm = ChatGoogleGenerativeAI(
-    model="gemini-flash-lite-latest",
+    model=MODEL_NAME,
     google_api_key=GOOGLE_API_KEY,
     temperature=0.3,
 )
+
 
 # ---------------------------
 # 2) System prompt (senin promptun)

@@ -9,6 +9,15 @@ LLM tabanlı akıllı yazılım mimari asistanı. Semantic Router ile otomatik m
 - **🌐 Web Search**: Güncel bilgiler için web'de arama (SerpAPI)
 - **📄 RAG**: Yüklediğiniz dokümanlarda arama (PDF, DOCX, TXT)
 
+## 🎓 Öğrenim Hedefleri ve Kazanımlar
+
+Bu uygulamayı kullanan ve inceleyen geliştiriciler aşağıdaki yetkinlikleri elde edecektir:
+
+1.  **Modern AI Mimarilerini Kavrama**: LLM uygulamalarında RAG (Retrieval-Augmented Generation) ve Semantic Routing gibi ileri seviye tekniklerin nasıl bir araya getirildiğini ve gerçek senaryolarda nasıl çalıştığını deneyimleyeceksiniz.
+2.  **Hızlı ve Akıllı Doküman Analizi**: Kapsamlı teknik dokümanlar (PDF, DOCX, TXT) içerisinden manuel arama yapmaya gerek kalmadan saniyeler içinde spesifik bilgileri çekebilir ve kompleks yapıları özetleyebilirsiniz.
+3.  **Mimari Karar Verme Yetkinliği**: Asistanın sunduğu trade-off (ödünleşim) analizleri ve tasarım desenleri önerileri sayesinde, yazılım süreçlerinde daha sağlam ve gerekçeli mimari kararlar alma becerisi kazanacaksınız.
+4.  **Gerçek Zamanlı Veri Entegrasyonu**: Statik model bilgilerini canlı web verileriyle (SerpAPI) harmanlayarak, en güncel teknolojik trendler ve kütüphane sürümleri hakkında doğru ve doğrulanabilir bilgiye ulaşma yetisi edineceksiniz.
+
 ## 🛠️ Teknolojiler
 
 - **Backend**: FastAPI + LangChain
@@ -55,12 +64,14 @@ cp .env.example .env
 ### Backend (FastAPI)
 
 ```bash
-uvicorn main:app --reload
+# Proje kök dizinindeyken:
+uvicorn backend.main:app --reload
 ```
 
 ### Frontend (Streamlit)
 
 ```bash
+cd frontend
 streamlit run app_streamlit.py
 ```
 
@@ -80,13 +91,16 @@ Tarayıcıda `http://localhost:8501` adresine gidin.
 
 ```
 smart-llm-assistant/
-├── main.py              # FastAPI backend + Gemini API
-├── semantic_router.py   # LLM-based intent detection
-├── app_streamlit.py     # Streamlit frontend
-├── requirements.txt     # Python bağımlılıkları
-├── .env                 # Ortam değişkenleri (gitignore'da)
-├── .env.example         # Örnek ortam değişkenleri
-└── .streamlit/          # Streamlit tema ayarları
+├── backend/
+│   ├── main.py              # FastAPI backend + Gemini API
+│   ├── semantic_router.py   # LLM-based intent detection
+│   └── __init__.py
+├── frontend/
+│   ├── app_streamlit.py     # Streamlit frontend
+│   └── .streamlit/          # Streamlit tema ayarları
+├── requirements.txt         # Python bağımlılıkları
+├── .env                     # Ortam değişkenleri (gitignore'da)
+└── .env.example             # Örnek ortam değişkenleri
 ```
 
 ## 📝 Lisans
